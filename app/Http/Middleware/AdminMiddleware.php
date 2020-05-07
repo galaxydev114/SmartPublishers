@@ -1,0 +1,21 @@
+<?php
+
+namespace DLW\Http\Middleware;
+
+use Closure;
+use Auth;
+
+
+class AdminMiddleware
+{
+    public function handle($request, Closure $next)
+    {
+        if (Auth::guard()->check()) {
+            return redirect('/');
+        }
+        else if (!Auth::guard('admin')->check()){
+            return redirect(route('admin.login'));
+        }
+        return $next($request);
+    }
+}
